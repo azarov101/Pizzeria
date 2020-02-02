@@ -3,6 +3,7 @@ pizza-location-ms/target/
 pizza-menu-ms/target/
 pizza-location-ms/target/
 !.mvn/wrapper/maven-wrapper.jar
+.metadata
 
 ### STS ###
 .apt_generated
