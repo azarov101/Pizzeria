@@ -1,0 +1,85 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This swagger contains all the locations that our pizzeria can deliver to.",
+    "version": "1.0.0",
+    "title": "Locations",
+    "contact": {
+      "name": "Amdocs Digital",
+      "url": "http://www.t-mobile.com",
+      "email": "MichaeAz@amdocs.com"
+    },
+    "license": {
+      "name": "Proprietary software",
+      "url": "https://en.wikipedia.org/wiki/Proprietary_software"
+    },
+    "termsOfService": "https://www.t-mobile.com/templates/popup.aspx?PAsset=Ftr_Ftr_TermsAndConditions"
+  },
+  "host": "localhost:8080",
+  "basePath": "/location",
+  "tags": [
+    {
+      "name": "Location",
+      "description": "This service is used to get all of the locations."
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/getCityList": {
+      "get": {
+        "tags": [
+          "Location"
+        ],
+        "summary": "Get city list.",
+        "description": "This service is used to get all of the cities.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetCityListResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "GetCityListResponse": {
+      "type": "object",
+      "properties": {
+        "cityList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/City"
+          }
+        }
+      }
+    },
+    "City": {
+      "type": "object",
+      "properties": {
+        "locationId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "city": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

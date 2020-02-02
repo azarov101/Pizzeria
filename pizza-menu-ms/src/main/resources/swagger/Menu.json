@@ -1,0 +1,119 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This swagger contains the menu: pizzas, toppings and drinks that we offer.",
+    "version": "1.0.0",
+    "title": "Menu",
+    "contact": {
+      "name": "Amdocs Digital",
+      "url": "http://www.t-mobile.com",
+      "email": "MichaeAz@amdocs.com"
+    },
+    "license": {
+      "name": "Proprietary software",
+      "url": "https://en.wikipedia.org/wiki/Proprietary_software"
+    },
+    "termsOfService": "https://www.t-mobile.com/templates/popup.aspx?PAsset=Ftr_Ftr_TermsAndConditions"
+  },
+  "host": "localhost:8081",
+  "basePath": "/menu",
+  "tags": [
+    {
+      "name": "Menu",
+      "description": "This service is used to get the menu items."
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/getMenu": {
+      "get": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Get menu.",
+        "description": "This service is used to get the menu items.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetMenuResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "GetMenuResponse": {
+      "type": "object",
+      "properties": {
+        "pizzaList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PizzaItem"
+          }
+        },
+        "toppingList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtraItem"
+          }
+        },
+        "drinkList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtraItem"
+          }
+        }
+      }
+    },
+    "PizzaItem": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "discountedPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    },
+    "ExtraItem": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

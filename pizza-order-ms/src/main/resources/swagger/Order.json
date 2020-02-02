@@ -1,0 +1,398 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This swagger contains order functionality.",
+    "version": "1.0.0",
+    "title": "Order",
+    "contact": {
+      "name": "Amdocs Digital",
+      "url": "http://www.t-mobile.com",
+      "email": "MichaeAz@amdocs.com"
+    },
+    "license": {
+      "name": "Proprietary software",
+      "url": "https://en.wikipedia.org/wiki/Proprietary_software"
+    },
+    "termsOfService": "https://www.t-mobile.com/templates/popup.aspx?PAsset=Ftr_Ftr_TermsAndConditions"
+  },
+  "host": "localhost:8082",
+  "basePath": "/order",
+  "tags": [
+    {
+      "name": "Order",
+      "description": "This service is used to create and get an order."
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/createOrder": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "create order",
+        "description": "This service is used to create a new order.",
+        "operationId": "createOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "CreateOrderRequest object that needs to be added as a new order to the Database.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateOrderRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CreateOrderResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/getOrderDetails/{orderId}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Get order details",
+        "description": "This service is used to get order details.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "orderId",
+            "type": "integer",
+            "format": "int64",
+            "in": "path",
+            "description": "This number is the id of the order.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetOrderDetailsResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/getAllOrders": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "Get list of all orders",
+        "description": "This service is used to get all the orders.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetAllOrdersResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CreateOrderResponse": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "requestStatus": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateOrderRequest": {
+      "type": "object",
+      "required": [
+        "name",
+        "totalPrice",
+        "location",
+        "items"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z-][a-zA-Z- ]*$"
+        },
+        "totalPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "location": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderDetailsExtra"
+          }
+        }
+      }
+    },
+    "OrderDetailsExtra": {
+      "type": "object",
+      "required": [
+        "pizzaDescription",
+        "orderPrice",
+        "numberOfPizzas",
+        "toppings",
+        "drinks"
+      ],
+      "properties": {
+        "pizzaDescription": {
+          "$ref": "#/definitions/PizzaDescription"
+        },
+        "orderPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "numberOfPizzas": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "toppings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PizzaToppingsExtra"
+          }
+        },
+        "drinks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PizzaDrinksExtra"
+          }
+        }
+      }
+    },
+    "PizzaToppingsExtra": {
+      "type": "object",
+      "required": [
+        "pizzaNumber",
+        "toppings"
+      ],
+      "properties": {
+        "pizzaNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "toppings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PizzaExtra"
+          }
+        }
+      }
+    },
+    "PizzaExtra": {
+      "type": "object",
+      "description": "Pizza toppings details.",
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    },
+    "PizzaDrinksExtra": {
+      "type": "object",
+      "description": "Pizza drinks details.",
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "image": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        }
+      }
+    },
+    "GetOrderDetailsResponse": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "totalPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "location": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderDetails"
+          }
+        }
+      }
+    },
+    "OrderDetails": {
+      "type": "object",
+      "properties": {
+        "pizzaDescription": {
+          "$ref": "#/definitions/PizzaDescription"
+        },
+        "numberOfPizzas": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "toppings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PizzaToppings"
+          }
+        },
+        "drinks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PizzaDrinks"
+          }
+        },
+        "orderPrice": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "PizzaDescription": {
+      "type": "object",
+      "required": [
+        "item",
+        "price",
+        "image"
+      ],
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "discountedPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    },
+    "PizzaToppings": {
+      "type": "object",
+      "required": [
+        "pizzaNumber",
+        "toppings"
+      ],
+      "properties": {
+        "pizzaNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "toppings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "PizzaDrinks": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        }
+      }
+    },
+    "GetAllOrdersResponse": {
+      "type": "object",
+      "properties": {
+        "orderList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetOrderDetailsResponse"
+          }
+        }
+      }
+    }
+  }
+}

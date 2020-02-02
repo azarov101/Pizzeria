@@ -1,0 +1,16 @@
+HELP.md
+pizza-location-ms/target/
+pizza-menu-ms/target/
+pizza-location-ms/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+pizza-location-ms/.classpath
+pizza-menu-ms/.classpath
+pizza-location-ms/.classpath
+
+pizza-location-ms/.project
+pizza-menu-ms/.project
+pizza-location-ms/.project
+
