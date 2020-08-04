@@ -18,7 +18,7 @@
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Hoxton.SR1</spring-cloud.version>
 		<ms-dir>com.example.pizzamenu</ms-dir>
-		<basedir>C:\Users\MICHAEAZ\eclipse-workspace\STUDY\pizza-menu-ms</basedir>
+		<basedir>${project.basedir}</basedir>
 		<swagger-output-folder>${basedir}/src/main/resources/swagger</swagger-output-folder>
 		<swagger-url>placeholder</swagger-url>
 		<swagger-url-branch>placeholder</swagger-url-branch>
@@ -67,12 +67,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>

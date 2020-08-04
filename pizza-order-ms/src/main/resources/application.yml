@@ -1,12 +1,13 @@
 server:
   port: 8082
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    prefer-ip-address: true
+cros:
+  origins: http://localhost:3000
+
+logging:
+  level:
+    com:
+      example: DEBUG
 
 spring:
   application:
@@ -14,3 +15,11 @@ spring:
   data:
     mongodb:
       uri: mongodb://Michael_Amdocs:amdocs123@ds135427.mlab.com:35427/michael_pizza?retryWrites=false
+      collection-name: pizza_order
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true

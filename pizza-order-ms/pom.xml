@@ -18,7 +18,7 @@
 		<java.version>1.8</java.version>
 		<spring-cloud.version>Hoxton.SR1</spring-cloud.version>
 		<ms-dir>com.example.order</ms-dir>
-		<basedir>C:\Users\MICHAEAZ\eclipse-workspace\STUDY\pizza-order-ms</basedir>
+		<basedir>${project.basedir}</basedir>
 		<swagger-output-folder>${basedir}/src/main/resources/swagger</swagger-output-folder>
 		<swagger-url>placeholder</swagger-url>
 		<swagger-url-branch>placeholder</swagger-url-branch>

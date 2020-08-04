@@ -1,12 +1,16 @@
 server:
   port: 8080
 
+cros:
+  origins: http://localhost:3000
+
 spring:
   application:
     name: pizza-location-ms
   data:
     mongodb:
       uri: mongodb://Michael_Amdocs:amdocs123@ds135427.mlab.com:35427/michael_pizza?retryWrites=false
+      collection-name: pizza_location
 
 eureka:
   client:
