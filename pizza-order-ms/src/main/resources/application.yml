@@ -14,7 +14,7 @@ spring:
     name: pizza-order-ms
   data:
     mongodb:
-      uri: mongodb://Michael_Amdocs:amdocs123@ds135427.mlab.com:35427/michael_pizza?retryWrites=false
+      uri: mongodb://Michael:michael123@ds135427.mlab.com:35427/michael_pizza?retryWrites=false
       collection-name: pizza_order
 
 eureka:

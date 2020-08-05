@@ -1,0 +1,200 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This swagger contains delivery functionality.",
+    "version": "1.0.0",
+    "title": "Delivery",
+    "contact": {
+      "name": "Michael Limited",
+      "url": "https://linkedin.com/in/michael-azarov-b13564140",
+      "email": "MichaelAzarov1@gmail.com"
+    },
+    "license": {
+      "name": "Proprietary software",
+      "url": "https://en.wikipedia.org/wiki/Proprietary_software"
+    },
+    "termsOfService": "https://en.wikipedia.org/wiki/Terms_of_service"
+  },
+  "host": "localhost:8082",
+  "basePath": "/delivery",
+  "tags": [
+    {
+      "name": "order-details",
+      "description": "Retrieves order details for specific order."
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/get-order-details": {
+      "post": {
+        "tags": [
+          "order-details"
+        ],
+        "summary": "This API returns order details for a specific order number.",
+        "description": "This API returns order details for input with a specific order number.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "orderDetailsRequest",
+            "description": "Order Details Request Object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderDetailsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrderDetailsResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "OrderDetailsRequest": {
+      "type": "object",
+      "required": [
+        "orderId"
+      ],
+      "properties": {
+        "orderId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Order Id is the receipt number.",
+          "example": 123456789
+        }
+      }
+    },
+    "OrderDetailsResponse": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "totalPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "location": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderDetails"
+          }
+        }
+      }
+    },
+    "OrderDetails": {
+      "type": "object",
+      "properties": {
+        "pizzaDescription": {
+          "$ref": "#/definitions/PizzaDescription"
+        },
+        "numberOfPizzas": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "toppings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PizzaToppings"
+          }
+        },
+        "drinks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PizzaDrinks"
+          }
+        },
+        "orderPrice": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "PizzaDescription": {
+      "type": "object",
+      "required": [
+        "item",
+        "price",
+        "image"
+      ],
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "discountedPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    },
+    "PizzaToppings": {
+      "type": "object",
+      "required": [
+        "pizzaNumber",
+        "toppings"
+      ],
+      "properties": {
+        "pizzaNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "toppings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "PizzaDrinks": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

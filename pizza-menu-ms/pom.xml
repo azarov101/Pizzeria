@@ -8,7 +8,7 @@
 		<version>2.2.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.amdocs</groupId>
+	<groupId>com.example</groupId>
 	<artifactId>pizza-menu-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>pizza-menu-ms</name>

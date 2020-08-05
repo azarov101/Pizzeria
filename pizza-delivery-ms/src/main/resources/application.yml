@@ -1,1 +1,25 @@
+server:
+  port: 8083
 
+cros:
+  origins: http://localhost:3000
+
+logging:
+  level:
+    com:
+      example: DEBUG
+
+spring:
+  application:
+    name: pizza-delivery-ms
+  data:
+    mongodb:
+      uri: mongodb://Michael:michael123@ds135427.mlab.com:35427/michael_pizza?retryWrites=false
+      collection-name: pizza_delivery
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
