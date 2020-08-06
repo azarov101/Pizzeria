@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.order.resources.mapper.OrderResponseMapper;
-import com.example.order.resources.utils.Constants;
+import com.example.order.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.example.order.resources.utils;
+package com.example.order.utils;
 
 public class Constants {
 

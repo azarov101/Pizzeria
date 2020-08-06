@@ -15,25 +15,25 @@
     },
     "termsOfService": "https://en.wikipedia.org/wiki/Terms_of_service"
   },
-  "host": "localhost:8082",
+  "host": "localhost:8083",
   "basePath": "/delivery",
   "tags": [
     {
-      "name": "order-details",
-      "description": "Retrieves order details for specific order."
+      "name": "delivery-details",
+      "description": "Retrieves delivery details for specific order."
     }
   ],
   "schemes": [
     "http"
   ],
   "paths": {
-    "/get-order-details": {
+    "/get-delivery-details": {
       "post": {
         "tags": [
-          "order-details"
+          "delivery-details"
         ],
-        "summary": "This API returns order details for a specific order number.",
-        "description": "This API returns order details for input with a specific order number.",
+        "summary": "This API returns delivery details for a specific order number.",
+        "description": "This API returns delivery details for input with a specific order number.",
         "consumes": [
           "application/json"
         ],
@@ -43,11 +43,11 @@
         "parameters": [
           {
             "in": "body",
-            "name": "orderDetailsRequest",
-            "description": "Order Details Request Object",
+            "name": "deliveryDetailsRequest",
+            "description": "Delivery Details Request Object",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/OrderDetailsRequest"
+              "$ref": "#/definitions/DeliveryDetailsRequest"
             }
           }
         ],
@@ -55,7 +55,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/OrderDetailsResponse"
+              "$ref": "#/definitions/DeliveryDetailsResponse"
             }
           },
           "401": {
@@ -72,7 +72,7 @@
     }
   },
   "definitions": {
-    "OrderDetailsRequest": {
+    "DeliveryDetailsRequest": {
       "type": "object",
       "required": [
         "orderId"
@@ -86,7 +86,7 @@
         }
       }
     },
-    "OrderDetailsResponse": {
+    "DeliveryDetailsResponse": {
       "type": "object",
       "properties": {
         "orderId": {
@@ -109,12 +109,12 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/OrderDetails"
+            "$ref": "#/definitions/DeliveryDetails"
           }
         }
       }
     },
-    "OrderDetails": {
+    "DeliveryDetails": {
       "type": "object",
       "properties": {
         "pizzaDescription": {
