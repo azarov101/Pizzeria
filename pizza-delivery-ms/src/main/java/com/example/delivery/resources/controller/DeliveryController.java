@@ -1,11 +1,15 @@
 package com.example.delivery.resources.controller;
 
 import com.example.delivery.persistence.dao.DeliveryDAO;
+import com.example.order.model.external.DeliveriesResponse;
+import com.example.order.model.external.DeliveryDTO;
 import com.example.order.model.external.DeliveryDetailsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -21,5 +25,15 @@ public class DeliveryController {
 
     public DeliveryDetailsResponse getDeliveryDetails(Long orderId) {
         return deliveryDAO.getDeliveryDetails(orderId);
+    }
+
+    public DeliveriesResponse getDeliveries() {
+        List<DeliveryDTO> deliveryList = deliveryDAO.getDeliveries();
+
+        DeliveriesResponse response = new DeliveriesResponse();
+        response.setCount(deliveryList.size());
+        response.setDeliveryList(deliveryList);
+
+        return response;
     }
 }

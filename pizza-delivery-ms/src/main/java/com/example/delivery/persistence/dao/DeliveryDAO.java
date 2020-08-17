@@ -1,5 +1,6 @@
 package com.example.delivery.persistence.dao;
 
+import com.example.order.model.external.DeliveryDTO;
 import com.example.order.model.external.DeliveryDetailsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -9,6 +10,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -30,7 +34,7 @@ public class DeliveryDAO {
         DeliveryDetailsResponse response;
 
         try {
-            logger.debug("Trying to retrieve order details for {} from Database", orderId.toString());
+            logger.debug("Trying to retrieve delivery details for {} from Database", orderId.toString());
             response = mongoTemplate.findOne(query, DeliveryDetailsResponse.class, collectionName);
 
             if (response == null) {
@@ -39,10 +43,30 @@ public class DeliveryDAO {
             logger.debug("Successfully retrieved details for order {}", orderId.toString());
 
         } catch (Exception e) {
-            logger.error("Database error when trying to retrieve order details. Error Message: {}", e.getMessage());
+            logger.error("Database error when trying to retrieve delivery details. Error Message: {}", e.getMessage());
             response = new DeliveryDetailsResponse();
         }
 
         return response;
+    }
+
+    public List<DeliveryDTO> getDeliveries() {
+        List<DeliveryDTO> deliveryList = null;
+
+        try {
+            logger.debug("Trying to retrieve all deliveries from Database");
+            deliveryList = mongoTemplate.findAll(DeliveryDTO.class, collectionName);
+
+            if (deliveryList == null) {
+                throw new Exception("There are no deliveries in Database");
+            }
+            logger.debug("Successfully retrieved deliveries");
+
+        } catch (Exception e) {
+            logger.error("Database error when trying to retrieve deliveries. Error Message: {}", e.getMessage());
+            deliveryList = new ArrayList<>();
+        }
+
+        return deliveryList;
     }
 }

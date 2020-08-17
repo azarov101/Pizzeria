@@ -21,6 +21,10 @@
     {
       "name": "delivery-details",
       "description": "Retrieves delivery details for specific order."
+    },
+    {
+      "name": "deliveries",
+      "description": "Retrieves basic info about all of the deliveries."
     }
   ],
   "schemes": [
@@ -56,6 +60,39 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/DeliveryDetailsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/get-deliveries": {
+      "get": {
+        "tags": [
+          "deliveries"
+        ],
+        "summary": "This API returns basic info about all of the deliveries.",
+        "description": "This API returns basic info about all of the deliveries.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DeliveriesResponse"
             }
           },
           "401": {
@@ -111,6 +148,40 @@
           "items": {
             "$ref": "#/definitions/DeliveryDetails"
           }
+        }
+      }
+    },
+    "DeliveriesResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "deliveryList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DeliveryDTO"
+          }
+        }
+      }
+    },
+    "DeliveryDTO": {
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "status": {
+          "type": "string"
         }
       }
     },

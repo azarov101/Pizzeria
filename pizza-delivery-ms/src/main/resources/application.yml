@@ -1,13 +1,15 @@
 server:
   port: 8083
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
 cros:
   origins: http://localhost:3000
-
-logging:
-  level:
-    com:
-      example: DEBUG
 
 spring:
   application:
@@ -16,10 +18,49 @@ spring:
     mongodb:
       uri: mongodb://Michael:michael123@ds135427.mlab.com:35427/michael_pizza?retryWrites=false
       collection-name: pizza_delivery
+  cloud:
+    stream:
+      defaultBinder: kafka
+      binders:
+        kafka:
+          type: kafka
+          environment:
+            spring:
+              cloud:
+                stream:
+                  kafka:
+                    binder:
+                      brokers: localhost:9092
+                      zkNodes: localhost:2181
+      kafka:
+        binder:
+          autoAddPartitions: true
+        bindings:
+          ORDER_IN:
+            consumer:
+              startOffset: latest
+              autoCommitOffset: true
+              autoCommitOnError: true
+              enableDlq: true
+              configuration:
+                max.poll.interval.ms: 2147483647
+                session.timeout.ms: 300000
+                heartbeat.interval.ms: 60000
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    prefer-ip-address: true
+      bindings:
+        #Input Channel
+        ORDER_CREATED_EVENT:
+          binder: kafka
+          content-type: application/json
+          destination: ORDER_CREATED
+
+        #Output Channel
+        ORDER_STATUS_UPDATE_EVENT:
+          binder: kafka
+          content-type: application/json
+          destination: ORDER_STATUS_UPDATE
+
+logging:
+  level:
+    com:
+      example: DEBUG
