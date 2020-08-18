@@ -55,10 +55,10 @@ spring:
           destination: ORDER_CREATED
 
         #Output Channel
-        ORDER_STATUS_UPDATE_EVENT:
+        DELIVERY_STATUS_UPDATE_EVENT:
           binder: kafka
           content-type: application/json
-          destination: ORDER_STATUS_UPDATE
+          destination: DELIVERY_STATUS_UPDATE
 
 logging:
   level:

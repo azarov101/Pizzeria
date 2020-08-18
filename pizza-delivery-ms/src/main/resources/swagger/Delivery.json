@@ -154,19 +154,15 @@
     "DeliveriesResponse": {
       "type": "object",
       "properties": {
-        "count": {
-          "type": "integer",
-          "format": "int32"
-        },
         "deliveryList": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/DeliveryDTO"
+            "$ref": "#/definitions/Delivery"
           }
         }
       }
     },
-    "DeliveryDTO": {
+    "Delivery": {
       "type": "object",
       "properties": {
         "orderId": {

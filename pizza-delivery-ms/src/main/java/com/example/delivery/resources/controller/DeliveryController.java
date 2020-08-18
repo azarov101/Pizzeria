@@ -2,7 +2,7 @@ package com.example.delivery.resources.controller;
 
 import com.example.delivery.persistence.dao.DeliveryDAO;
 import com.example.order.model.external.DeliveriesResponse;
-import com.example.order.model.external.DeliveryDTO;
+import com.example.order.model.external.Delivery;
 import com.example.order.model.external.DeliveryDetailsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -28,10 +28,9 @@ public class DeliveryController {
     }
 
     public DeliveriesResponse getDeliveries() {
-        List<DeliveryDTO> deliveryList = deliveryDAO.getDeliveries();
+        List<Delivery> deliveryList = deliveryDAO.getDeliveries();
 
         DeliveriesResponse response = new DeliveriesResponse();
-        response.setCount(deliveryList.size());
         response.setDeliveryList(deliveryList);
 
         return response;

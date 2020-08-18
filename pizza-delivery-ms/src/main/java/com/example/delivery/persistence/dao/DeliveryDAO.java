@@ -1,6 +1,7 @@
 package com.example.delivery.persistence.dao;
 
-import com.example.order.model.external.DeliveryDTO;
+import com.example.delivery.persistence.dto.DeliveryDTO;
+import com.example.order.model.external.Delivery;
 import com.example.order.model.external.DeliveryDetailsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -50,12 +51,12 @@ public class DeliveryDAO {
         return response;
     }
 
-    public List<DeliveryDTO> getDeliveries() {
-        List<DeliveryDTO> deliveryList = null;
+    public List<Delivery> getDeliveries() {
+        List<Delivery> deliveryList = null;
 
         try {
             logger.debug("Trying to retrieve all deliveries from Database");
-            deliveryList = mongoTemplate.findAll(DeliveryDTO.class, collectionName);
+            deliveryList = mongoTemplate.findAll(Delivery.class, collectionName);
 
             if (deliveryList == null) {
                 throw new Exception("There are no deliveries in Database");
@@ -68,5 +69,17 @@ public class DeliveryDAO {
         }
 
         return deliveryList;
+    }
+
+    public void saveDelivery(DeliveryDTO deliveryDTO) {
+        try {
+            logger.debug("Trying to save delivery {} to Database", deliveryDTO.getOrderId());
+            mongoTemplate.save(deliveryDTO);
+            logger.debug("Successfully saved delivery");
+
+        } catch (Exception e) {
+            logger.error("Database error when trying to save delivery. Error Message: {}", e.getMessage());
+            throw e;
+        }
     }
 }
