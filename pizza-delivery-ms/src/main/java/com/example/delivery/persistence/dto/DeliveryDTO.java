@@ -15,6 +15,6 @@ public class DeliveryDTO {
     private String name;
     private Double price;
     private String status;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    private LocalDateTime createdTime;
+    private LocalDateTime updatedTime;
 }

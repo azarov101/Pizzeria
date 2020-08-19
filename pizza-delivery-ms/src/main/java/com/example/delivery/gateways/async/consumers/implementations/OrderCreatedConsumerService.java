@@ -10,13 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
-import java.io.InvalidObjectException;
 
 @Slf4j
 @Service
 public class OrderCreatedConsumerService implements OrderCreatedListener {
 
     protected DeliveryDAO deliveryDAO;
+//    protected ScheduledConfiguration ScheduledConfiguration;
     protected static Logger logger = LoggerFactory.getLogger(OrderCreatedConsumerService.class);
 
     public OrderCreatedConsumerService(DeliveryDAO deliveryDAO) {
@@ -24,18 +24,17 @@ public class OrderCreatedConsumerService implements OrderCreatedListener {
     }
 
     @Override
-    public void execute(Message<DeliveryDTO> message) {
+    public void execute(final Message<DeliveryDTO> message) {
         logger.debug("Starting process {}...", IOrderCreatedSink.CHANNEL_NAME);
-
         validate(message);
 
         deliveryDAO.saveDelivery(message.getPayload());
 
-        // TODO start countdown for delivery status change
+        // TODO call producer service and start countdown for delivery status change
     }
 
     @Override
-    public void validate(Message<DeliveryDTO> message) {
+    public void validate(final Message<DeliveryDTO> message) {
         if (message == null || message.getPayload() == null) {
             throw new NullPointerException("Kafka message is empty");
         }
@@ -43,8 +42,8 @@ public class OrderCreatedConsumerService implements OrderCreatedListener {
         DeliveryDTO delivery = message.getPayload();
 
         if (delivery.getOrderId() == null || delivery.getName() == null || delivery.getPrice() == null ||
-                delivery.getCreatedDate() == null) {
-            throw new NullPointerException("Kafka message is missing parameter");
+                delivery.getStatus() == null || delivery.getCreatedTime() == null || delivery.getUpdatedTime() == null) {
+            throw new NullPointerException("Kafka message is missing parameters");
         }
     }
 }
