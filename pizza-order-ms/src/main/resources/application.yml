@@ -1,13 +1,17 @@
 server:
   port: 8082
+  error:
+    include-stacktrace: on_trace_param
 
-cros:
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+cross:
   origins: http://localhost:3000
-
-logging:
-  level:
-    com:
-      example: DEBUG
 
 spring:
   application:
@@ -16,10 +20,75 @@ spring:
     mongodb:
       uri: mongodb://Michael:michael123@ds135427.mlab.com:35427/michael_pizza?retryWrites=false
       collection-name: pizza_order
+  cloud:
+    stream:
+      defaultBinder: kafka
+      binders:
+        kafka:
+          type: kafka
+          environment:
+            spring:
+              cloud:
+                stream:
+                  kafka:
+                    binder:
+                      brokers: localhost:9092
+                      zkNodes: localhost:2181
+      #      kafka:
+      #        binder:
+      #          autoAddPartitions: true
+      #        bindings:
+      #          ORDER_CREATED_INPUT_EVENT:
+      #            binder: kafka
+      #            consumer:
+      #              startOffset: latest
+      #              autoCommitOffset: true
+      #              autoCommitOnError: true
+      #              enableDlq: true
+      #              configuration:
+      #                max.poll.interval.ms: 2147483647
+      #                session.timeout.ms: 300000
+      #                heartbeat.interval.ms: 60000
+      #          DELIVERY_STATUS_UPDATE_INPUT_EVENT:
+      #            binder: kafka
+      #            consumer:
+      #              startOffset: latest
+      #              autoCommitOffset: true
+      #              autoCommitOnError: true
+      #              enableDlq: true
+      #              configuration:
+      #                max.poll.interval.ms: 2147483647
+      #                session.timeout.ms: 300000
+      #                heartbeat.interval.ms: 60000
+      #          DELIVERY_STATUS_UPDATE_OUTPUT_EVENT:
+      #            producer.sync: false
+      #            producer.configuration.retries: 2
+      #            producer.configuration.request.timeout.ms: 150000
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    prefer-ip-address: true
+      bindings:
+        #Input Channels
+        ORDER_CREATED_OUTPUT_EVENT:
+          binder: kafka
+          content-type: application/json
+          destination: ORDER_CREATED
+        #          consumer:
+        #            startOffset: latest
+        #        DELIVERY_STATUS_UPDATE_INPUT_EVENT:
+        #          binder: kafka
+        #          content-type: application/json
+        #          destination: DELIVERY_STATUS_UPDATE
+        #          consumer:
+        #            startOffset: latest
+        #Output Channels
+#        DELIVERY_STATUS_UPDATE_OUTPUT_EVENT:
+#          binder: kafka
+#          content-type: application/json
+#          destination: DELIVERY_STATUS_UPDATE
+#          producer:
+#            partitionKeyExpression: payload.partitionKey
+#            partitionCount: 1
+
+logging:
+  level:
+    com:
+      example: DEBUG

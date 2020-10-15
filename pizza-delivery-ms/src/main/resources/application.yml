@@ -1,15 +1,23 @@
 server:
   port: 8083
+  error:
+    include-stacktrace: on_trace_param
 
 eureka:
   client:
+#    enabled: false
     service-url:
       defaultZone: http://localhost:8761/eureka
   instance:
     prefer-ip-address: true
 
-cros:
+cross:
   origins: http://localhost:3000
+
+pizza-delivery-ms:
+  scheduler:
+    delay: 0
+    period: 5000
 
 spring:
   application:
@@ -32,33 +40,59 @@ spring:
                     binder:
                       brokers: localhost:9092
                       zkNodes: localhost:2181
-      kafka:
-        binder:
-          autoAddPartitions: true
-        bindings:
-          ORDER_IN:
-            consumer:
-              startOffset: latest
-              autoCommitOffset: true
-              autoCommitOnError: true
-              enableDlq: true
-              configuration:
-                max.poll.interval.ms: 2147483647
-                session.timeout.ms: 300000
-                heartbeat.interval.ms: 60000
+#      kafka:
+#        binder:
+#          autoAddPartitions: true
+#        bindings:
+#          ORDER_CREATED_INPUT_EVENT:
+#            binder: kafka
+#            consumer:
+#              startOffset: latest
+#              autoCommitOffset: true
+#              autoCommitOnError: true
+#              enableDlq: true
+#              configuration:
+#                max.poll.interval.ms: 2147483647
+#                session.timeout.ms: 300000
+#                heartbeat.interval.ms: 60000
+#          DELIVERY_STATUS_UPDATE_INPUT_EVENT:
+#            binder: kafka
+#            consumer:
+#              startOffset: latest
+#              autoCommitOffset: true
+#              autoCommitOnError: true
+#              enableDlq: true
+#              configuration:
+#                max.poll.interval.ms: 2147483647
+#                session.timeout.ms: 300000
+#                heartbeat.interval.ms: 60000
+#          DELIVERY_STATUS_UPDATE_OUTPUT_EVENT:
+#            producer.sync: false
+#            producer.configuration.retries: 2
+#            producer.configuration.request.timeout.ms: 150000
 
       bindings:
-        #Input Channel
-        ORDER_CREATED_EVENT:
+        #Input Channels
+        ORDER_CREATED_INPUT_EVENT:
           binder: kafka
           content-type: application/json
           destination: ORDER_CREATED
-
-        #Output Channel
-        DELIVERY_STATUS_UPDATE_EVENT:
-          binder: kafka
-          content-type: application/json
-          destination: DELIVERY_STATUS_UPDATE
+#          consumer:
+#            startOffset: latest
+#        DELIVERY_STATUS_UPDATE_INPUT_EVENT:
+#          binder: kafka
+#          content-type: application/json
+#          destination: DELIVERY_STATUS_UPDATE
+#          consumer:
+#            startOffset: latest
+        #Output Channels
+#        DELIVERY_STATUS_UPDATE_OUTPUT_EVENT:
+#          binder: kafka
+#          content-type: application/json
+#          destination: DELIVERY_STATUS_UPDATE
+#          producer:
+#            partitionKeyExpression: payload.partitionKey
+#            partitionCount: 1
 
 logging:
   level:

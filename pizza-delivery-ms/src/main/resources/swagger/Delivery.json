@@ -38,6 +38,7 @@
         ],
         "summary": "This API returns delivery details for a specific order number.",
         "description": "This API returns delivery details for input with a specific order number.",
+        "operationId": "getDeliveryDetails",
         "consumes": [
           "application/json"
         ],
@@ -60,19 +61,113 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/DeliveryDetailsResponse"
+            },
+            "examples": {
+              "application/json": {
+                "orderId": 2052091022,
+                "name": "Michael Azarov",
+                "totalPrice": 250,
+                "location": "Mizpe-Ramon, Ben Gurion 8",
+                "notes": "Extra napkins",
+                "items": []
+              }
             }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "Date": {
+                "description": "The Date general HTTP header contains the date and time at which the message was originated.",
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$",
+                "x-example": "Tue, 06 Oct 2020 13:09:24 GMT"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "timestamp": "2020-10-06T13:09:24.390+00:00",
+                "status": "400",
+                "error": "Bad Request",
+                "message": "Bad Request",
+                "path": "/basepath/path"
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "Date": {
+                "description": "The Date general HTTP header contains the date and time at which the message was originated.",
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$",
+                "x-example": "Tue, 06 Oct 2020 13:09:24 GMT"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "timestamp": "2020-10-06T13:09:24.390+00:00",
+                "status": "401",
+                "error": "Unauthorized",
+                "message": "Unauthorized",
+                "path": "/basepath/path"
+              }
+            }
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "Date": {
+                "description": "The Date general HTTP header contains the date and time at which the message was originated.",
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$",
+                "x-example": "Tue, 06 Oct 2020 13:09:24 GMT"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "timestamp": "2020-10-06T13:09:24.390+00:00",
+                "status": "403",
+                "error": "Forbidden",
+                "message": "Forbidden",
+                "path": "/basepath/path"
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "Date": {
+                "description": "The Date general HTTP header contains the date and time at which the message was originated.",
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$",
+                "x-example": "Tue, 06 Oct 2020 13:09:24 GMT"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "timestamp": "2020-10-06T13:09:24.390+00:00",
+                "status": "404",
+                "error": "Not Found",
+                "message": "Not Found",
+                "path": "/basepath/path"
+              }
+            }
           }
         }
       }
@@ -84,6 +179,7 @@
         ],
         "summary": "This API returns basic info about all of the deliveries.",
         "description": "This API returns basic info about all of the deliveries.",
+        "operationId": "getDeliveries",
         "produces": [
           "application/json"
         ],
@@ -93,22 +189,135 @@
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/DeliveriesResponse"
+            },
+            "examples": {
+              "application/json": {
+                "deliveryList": [
+                  {
+                    "orderId": 2052091022,
+                    "name": "Michael Azarov",
+                    "price": 50,
+                    "status": "Delivered"
+                  }
+                ]
+              }
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "Date": {
+                "description": "The Date general HTTP header contains the date and time at which the message was originated.",
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$",
+                "x-example": "Tue, 06 Oct 2020 13:09:24 GMT"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "timestamp": "2020-10-06T13:09:24.390+00:00",
+                "status": "401",
+                "error": "Unauthorized",
+                "message": "Unauthorized",
+                "path": "/basepath/path"
+              }
+            }
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "Date": {
+                "description": "The Date general HTTP header contains the date and time at which the message was originated.",
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$",
+                "x-example": "Tue, 06 Oct 2020 13:09:24 GMT"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "timestamp": "2020-10-06T13:09:24.390+00:00",
+                "status": "403",
+                "error": "Forbidden",
+                "message": "Forbidden",
+                "path": "/basepath/path"
+              }
+            }
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "headers": {
+              "Date": {
+                "description": "The Date general HTTP header contains the date and time at which the message was originated.",
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), [0-3]{1}[0-9]{1} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [1-3][0-9]{3} [0-2][0-9]:[0-6][0-9]:[0-6][0-9] GMT$",
+                "x-example": "Tue, 06 Oct 2020 13:09:24 GMT"
+              }
+            },
+            "examples": {
+              "application/json": {
+                "timestamp": "2020-10-06T13:09:24.390+00:00",
+                "status": "404",
+                "error": "Not Found",
+                "message": "Not Found",
+                "path": "/basepath/path"
+              }
+            }
           }
         }
       }
     }
   },
   "definitions": {
+    "Error": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "maxLength": 30,
+          "minLength": 1,
+          "pattern": "^[\\S ]+$",
+          "example": "2020-10-06T13:09:24.390+00:00"
+        },
+        "status": {
+          "type": "string",
+          "maxLength": 3,
+          "minLength": 3,
+          "pattern": "^[\\S ]+$",
+          "example": "400"
+        },
+        "error": {
+          "type": "string",
+          "maxLength": 25,
+          "minLength": 1,
+          "pattern": "^[\\S ]+$",
+          "example": "Bad Request"
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 2048,
+          "minLength": 1,
+          "example": "Bad Request"
+        },
+        "path": {
+          "type": "string",
+          "maxLength": 2048,
+          "minLength": 1,
+          "example": "/basepath/path"
+        }
+      }
+    },
     "DeliveryDetailsRequest": {
       "type": "object",
       "required": [

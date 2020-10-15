@@ -4,7 +4,7 @@ import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
 
 public interface IDeliveryStatusUpdateSource {
-    String CHANNEL_NAME = "DELIVERY_STATUS_UPDATE_EVENT";
+    String CHANNEL_NAME = "DELIVERY_STATUS_UPDATE_OUTPUT_EVENT";
 
     @Output(IDeliveryStatusUpdateSource.CHANNEL_NAME)
     MessageChannel output();

@@ -1,19 +1,25 @@
 package com.example.delivery.persistence.dao;
 
 import com.example.delivery.persistence.dto.DeliveryDTO;
+import com.example.delivery.utils.Constants;
+import com.example.delivery.utils.exceptions.InternalServerException;
+import com.example.delivery.utils.exceptions.NotFoundException;
 import com.example.order.model.external.Delivery;
 import com.example.order.model.external.DeliveryDetailsResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.delivery.utils.Constants.database_error;
 
 @Slf4j
 @Service
@@ -24,31 +30,33 @@ public class DeliveryDAO {
 
     protected static Logger logger = LoggerFactory.getLogger(DeliveryDAO.class);
 
-    public DeliveryDAO(@Value("${spring.data.mongodb.collection-name}")String collectionName, MongoTemplate mongoTemplate) {
+    public DeliveryDAO(@Value("${spring.data.mongodb.collection-name}") String collectionName, MongoTemplate mongoTemplate) {
         this.collectionName = collectionName;
         this.mongoTemplate = mongoTemplate;
     }
 
     public DeliveryDetailsResponse getDeliveryDetails(Long orderId) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where(orderId.toString()).is(orderId));
-        DeliveryDetailsResponse response;
+        Query query = getDeliveryById(orderId);
+        logger.debug("Trying to retrieve delivery details for {} from Database", orderId.toString());
 
         try {
-            logger.debug("Trying to retrieve delivery details for {} from Database", orderId.toString());
-            response = mongoTemplate.findOne(query, DeliveryDetailsResponse.class, collectionName);
+            DeliveryDetailsResponse response = mongoTemplate.findOne(query, DeliveryDetailsResponse.class, collectionName);
 
             if (response == null) {
-                throw new Exception("There are no details for order:" + orderId.toString() + " in Database");
+                throw new NotFoundException("There are no details for order:" + orderId.toString() + " in Database");
             }
-            logger.debug("Successfully retrieved details for order {}", orderId.toString());
 
+            logger.debug("Retrieved details for order {}", orderId.toString());
+            return response;
+
+        } catch (NotFoundException e) {
+            logger.error("{}", e.getMessage());
+            throw new NotFoundException(e.getMessage(), e);
         } catch (Exception e) {
-            logger.error("Database error when trying to retrieve delivery details. Error Message: {}", e.getMessage());
-            response = new DeliveryDetailsResponse();
+            String error = database_error("delivery details");
+            logger.error(error + ". Error Message: {}", e.getMessage());
+            throw new InternalServerException(error, e);
         }
-
-        return response;
     }
 
     public List<Delivery> getDeliveries() {
@@ -59,21 +67,26 @@ public class DeliveryDAO {
             deliveryList = mongoTemplate.findAll(Delivery.class, collectionName);
 
             if (deliveryList == null) {
-                throw new Exception("There are no deliveries in Database");
+                throw new NotFoundException("There are no deliveries in Database");
             }
             logger.debug("Successfully retrieved deliveries");
 
+        } catch (NotFoundException e) {
+            logger.error("{}", e.getMessage());
+            throw new NotFoundException(e.getMessage(), e);
         } catch (Exception e) {
-            logger.error("Database error when trying to retrieve deliveries. Error Message: {}", e.getMessage());
-            deliveryList = new ArrayList<>();
+            String error = database_error("deliveries");
+            logger.error(error + ". Error Message: {}", e.getMessage());
+            throw new InternalServerException(error, e);
         }
 
         return deliveryList;
     }
 
     public void saveDelivery(DeliveryDTO deliveryDTO) {
+        logger.debug("Trying to save delivery {} to Database", deliveryDTO.getOrderId());
+
         try {
-            logger.debug("Trying to save delivery {} to Database", deliveryDTO.getOrderId());
             mongoTemplate.save(deliveryDTO);
             logger.debug("Successfully saved delivery");
 
@@ -81,5 +94,29 @@ public class DeliveryDAO {
             logger.error("Database error when trying to save delivery. Error Message: {}", e.getMessage());
             throw e;
         }
+    }
+
+    public void updateDelivery(DeliveryDTO deliveryDTO) {
+        logger.debug("Trying to update delivery {} in Database", deliveryDTO.getOrderId());
+        Query query = getDeliveryById(deliveryDTO.getOrderId());
+
+        Document doc = new Document();
+        mongoTemplate.getConverter().write(deliveryDTO, doc);
+        Update update = Update.fromDocument(doc);
+
+        try {
+            mongoTemplate.upsert(query, update, DeliveryDTO.class);
+            logger.debug("Successfully updated delivery");
+
+        } catch (Exception e) {
+            logger.error("Database error when trying to update delivery. Error Message: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    private Query getDeliveryById(Long orderId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where(Constants.ORDER_ID).is(orderId));
+        return query;
     }
 }

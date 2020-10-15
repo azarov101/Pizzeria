@@ -3,6 +3,7 @@ package com.example.order.resources.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.order.gateways.async.producers.OrderCreatedProducer;
 import com.example.order.resources.mapper.OrderResponseMapper;
 import com.example.order.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
@@ -26,15 +27,17 @@ public class OrderController {
 	protected String collectionName;
 	protected MongoTemplate mongoTemplate;
 	protected OrderResponseMapper orderResponseMapper;
+	protected OrderCreatedProducer orderCreatedProducer;
 
 	protected static final int SLEEP_TIME = 1000;
 	protected static Logger logger = LoggerFactory.getLogger(OrderController.class);
 
 	public OrderController(@Value("${spring.data.mongodb.collection-name}")String collectionName, MongoTemplate mongoTemplate,
-						   OrderResponseMapper orderResponseMapper) {
+						   OrderResponseMapper orderResponseMapper, OrderCreatedProducer orderCreatedProducer) {
 		this.collectionName = collectionName;
 		this.mongoTemplate = mongoTemplate;
 		this.orderResponseMapper = orderResponseMapper;
+		this.orderCreatedProducer = orderCreatedProducer;
 	}
 	
 	public GetAllOrdersResponse getAllOrders() {
@@ -103,6 +106,11 @@ public class OrderController {
 				logger.debug("Retry #{}", counter);
 			}
 		} while (counter < 3);
+
+		// produce order to Delivery MS
+		orderCreatedProducer.produce(
+				orderCreatedProducer.mapCreateOrderRequestToDelivery(request, newOrder.getOrderId())
+		);
 
 		return orderResponseMapper.createOrderResponse(newOrder.getOrderId(), Constants.SUCCESS);
 	}

@@ -9,12 +9,12 @@ import com.example.order.model.external.DeliveryDetailsResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
-@CrossOrigin(origins = "${cros.origins}")
-@RequestMapping("delivery")
+@CrossOrigin(origins = "${cross.origins}")
 public class DeliveryRest implements GetDeliveryDetailsApi, GetDeliveriesApi {
 
     protected DeliveryController deliveryController;
@@ -24,22 +24,12 @@ public class DeliveryRest implements GetDeliveryDetailsApi, GetDeliveriesApi {
     }
 
     @Override
-    public ResponseEntity<DeliveryDetailsResponse> getDeliveryDetailsPost(DeliveryDetailsRequest deliveryDetailsRequest) {
-        if (!isRequestValid(deliveryDetailsRequest)) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
+    public ResponseEntity<DeliveryDetailsResponse> getDeliveryDetails(@Valid DeliveryDetailsRequest deliveryDetailsRequest) {
         return new ResponseEntity<>(deliveryController.getDeliveryDetails(deliveryDetailsRequest.getOrderId()), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<DeliveriesResponse> getDeliveriesGet() {
+    public ResponseEntity<DeliveriesResponse> getDeliveries() {
         return new ResponseEntity<>(deliveryController.getDeliveries(), HttpStatus.OK);
-    }
-
-    private boolean isRequestValid(DeliveryDetailsRequest deliveryDetailsRequest) {
-        if (deliveryDetailsRequest == null || deliveryDetailsRequest.getOrderId() == null
-                || deliveryDetailsRequest.getOrderId() <= 0) {
-            return false;
-        }
-        return true;
     }
 }

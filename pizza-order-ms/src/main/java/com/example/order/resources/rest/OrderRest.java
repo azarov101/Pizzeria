@@ -17,7 +17,7 @@ import com.example.order.model.external.GetAllOrdersResponse;
 import com.example.order.model.external.GetOrderDetailsResponse;
 
 @RestController
-@CrossOrigin(origins = "${cros.origins}")
+@CrossOrigin(origins = "${cross.origins}")
 @RequestMapping("order")
 public class OrderRest implements CreateOrderApi, GetOrderDetailsApi, GetAllOrdersApi {
 	
