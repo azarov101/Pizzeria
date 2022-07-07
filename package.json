@@ -1,0 +1,13 @@
+{
+  "name": "cloud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "docker-compose up"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+  }
+}

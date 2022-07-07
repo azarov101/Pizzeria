@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mongodb_pizza:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      #- mongodb_pizza:/data/db
+      - ./mongo-init/:/docker-entrypoint-initdb.d/:ro
+    command: --quiet
+#  mongo-seed:
+#    build: ./mongo-seed
+#    depends_on:
+#      - mongodb_pizza
+  pizza-location:
+    build: ./pizza-location-ms
+    restart: always
+    ports:
+      - 8085:8085
+    depends_on:
+      - mongodb_pizza
+
+volumes:
+  mongodb_pizza:
