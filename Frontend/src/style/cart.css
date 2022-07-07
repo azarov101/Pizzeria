@@ -1,0 +1,173 @@
+.cartHeader {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 2.5em;
+}
+
+.cartP {
+  font-size: 1.5em;
+  color: #8a8a8a;
+}
+
+.cartMiniP {
+  font-size: 1.2em;
+  color: #8a8a8a;
+  font-weight: bold;
+  display: block !important;
+}
+
+.cartEmpty {
+  font-size: 2.5em;
+  color: #8a8a8a;
+  text-align: center;
+  line-height: 4;
+  text-transform: uppercase;
+}
+
+.pizzaCartImg {
+  margin-right: 1em;
+  max-width: 9em;
+  width: 100%;
+  height: 6em;
+  object-fit: cover;
+  overflow: hidden; 
+}
+
+.cartContainer {
+  font: 62.5%/1.5em "Trebuchet Ms", helvetica;
+  max-width: 75em;
+  margin: auto;  
+  overflow: hidden;
+  background: #ecf0f1;
+  box-sizing: border-box;
+  border-radius: 0.6em;
+  -webkit-font-smoothing: antialiased;
+  box-shadow: 0px 0px 1px grey;  
+  /* sticky cart */
+  position: sticky;
+  top: 10vh;
+}
+
+.heading {
+  padding: 1em;
+  position: relative;
+  z-index: 1;
+  color: #f7f7f7;
+  background: #f34d35;
+}
+
+.cartContainer:hover {
+  box-shadow: 0px 0px 3px grey;  
+}
+
+.cart {
+  box-shadow: 10 10em 10 rgba(138, 148, 152, 0.6);
+  overflow: hidden;
+}
+
+.table {
+  background: #ffffff;
+  border-radius: 0.6em;
+  overflow: hidden;
+  clear: both;
+  margin-bottom: 1.8em;
+}
+
+
+.layout-inline > * {
+  display: inline-block;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.th {
+  background: #f34d35;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.tf {
+  background: #f34d35;
+  text-transform: uppercase;
+  font-size: 1.2em;  
+}
+
+.tf p {
+  color: #fff;
+  font-weight: bold;
+}
+
+.col {
+  padding: 1em 0.5em;
+  width: 25%;
+}
+
+.col-remove {
+  text-align: center;
+  width: 8%;
+}
+
+.col-total {
+  width: 17%;
+}
+
+.col-total-summary {
+  width: 17%;
+}
+
+.col-total p {
+  color: #12c8b1;
+}
+
+.row > div {
+  vertical-align: middle;
+}
+
+.row-bg2 {
+  background: #f7f7f7;
+}
+
+.visibility-cart {
+  position: absolute;
+  color: #fff;
+  top: 0.5em;
+  right: 0.5em;
+  font:  bold 2.5em arial;
+}
+
+.removeRow {
+  font:  bold 2em arial;
+  padding: 5px;
+}
+
+.removeRow:hover {
+  color: #f34d35;
+}
+
+.ui.button.orderButton {
+  background: #43ace3;
+  color: #fff;
+  width: 90%;
+  display: block;
+  margin: 1em auto;
+}
+
+.ui.button.orderButton:hover {
+  background: #3da3da !important;
+
+}
+
+@media screen and ( max-width: 755px) {
+  .cartContainer {
+    width: 98%;
+  }
+  
+  img {
+    max-width: 100%;
+    margin-bottom: 1em;
+  }
+}

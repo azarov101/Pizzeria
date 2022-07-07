@@ -1,0 +1,240 @@
+.myContainer{
+    width: 90vw !important;
+}
+
+.myHeader{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/*********** Home ***********/
+.coverImage {
+    width: 100%;
+    height: auto;
+}
+
+
+/*********** Menu ***********/
+.pizzaCard {
+    height: 100%;
+}
+
+.pizzaCard > img {
+    height: 200px;
+    max-width: 100%;
+    /* margin: 0 auto; */
+    object-fit: cover;
+}
+
+.price {
+    font-weight: bold;
+    font-size: 14px;
+    color: black;
+    justify-content: space-evenly;
+}
+
+.price + span {
+    font-style: lighter;
+    font-size: 14px;
+    /* width: 50%; */
+    color: #4183C4;
+}
+
+.lineThrough {
+    text-decoration: line-through;
+}
+
+.underLine {
+    text-decoration: underline;
+}
+
+
+/*********** Menu Modal ***********/
+.numberOfPizzas {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.modalButton {
+    margin: 10px;
+    float: right;
+}
+
+.cardGroup {
+    margin: auto !important;
+}
+
+.toppingImage {
+    height: 200px;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.modalCardPadding {
+    padding: 1em 1em 0.2em 1em !important;
+}
+
+.drinkImage {
+    max-width: 100%;
+    /* max-height: 100%; */
+    display: block;
+    margin: 0 auto;
+    /* object-fit: cover; */
+    height: 150px;
+}
+
+.drinkQuantityFix {
+    padding: 0 !important;
+}
+
+.drinkLabel {
+    display: block;
+}
+
+.centerText {
+    text-align: center;
+}
+
+.modalPrice {
+    font-style: lighter;
+    font-size: 12px;
+    line-height: 0px;
+    padding-top: 20px;
+    text-transform: uppercase;
+    color: rgb(51, 51, 58);
+}
+
+.currencyPadding {
+    padding-left: 0.7em;
+}
+
+/*********** Order ***********/
+.deliveryImage {
+    width: 50%;
+}
+
+.headerColor {
+    color: #4183C4;
+}
+
+.iconWidth {
+    width: 6%;
+}
+
+.inlineBlock {
+    display: inline-block;
+}
+
+.breakWord {
+    overflow-wrap: break-word;
+}
+
+.orderImage {
+    width: 100%;
+    height: 10em;
+    object-fit: cover;
+    overflow: hidden; 
+}
+
+.totalPrice {
+    color: #12c8b1;
+    font-weight: bold;
+}
+
+.orderRow {
+    cursor: pointer;
+}
+
+    .orderRow:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        font-weight: bold;
+    }
+
+@media only screen and (min-width: 991px){
+    .searchOrderField {
+        width: 350px;
+    }
+}
+
+@media only screen and (max-width: 595px){
+    .searchOrderField {
+        width: 150px;
+    }
+}
+
+@media only screen and (max-width: 460px){
+    .searchOrderField {
+        width: 100px;
+    }
+}
+
+
+/*********** input type number ***********/
+input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  
+  input[type=number]::-webkit-inner-spin-div,
+  input[type=number]::-webkit-outer-spin-div {
+    -webkit-appearance: none;
+  }
+  
+  .number-input {
+    border: 2px solid #ddd;
+    display: inline-flex;
+  }
+  
+  .number-input,
+  .number-input * {
+    box-sizing: border-box;
+  }
+  
+  .number-input div {
+    outline:none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+  }
+  
+  .number-input div:before,
+  .number-input div:after {
+    display: inline-block;
+    position: absolute;
+    content: '';
+    width: 1rem;
+    height: 2px;
+    background-color: #212121;
+    transform: translate(-50%, -50%);
+    margin-top: 1.5rem;
+  }
+  
+  .number-input div.plus:after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  
+  .number-input input[type=number] {
+    font-family: sans-serif;
+    max-width: 5rem;
+    padding: .5rem;
+    border: solid #ddd;
+    border-width: 0 2px;
+    font-size: 2rem;
+    height: 3rem;
+    font-weight: bold;
+    text-align: center;
+  }
+  
