@@ -1,0 +1,52 @@
+openapi: 3.0.1
+info:
+  title: Locations
+  description: This swagger contains all the locations that our pizzeria can deliver
+    to.
+  license:
+    name: Proprietary software
+    url: https://en.wikipedia.org/wiki/Proprietary_software
+  version: 1.0.0
+servers:
+  - url: http://localhost:8085/location
+tags:
+  - name: Location
+    description: This service is used to get all of the locations.
+paths:
+  /getCityList:
+    get:
+      tags:
+        - Location
+      summary: Get city list.
+      description: This service is used to get all of the cities.
+      operationId: getCityList
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCityListResponse'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+components:
+  schemas:
+    GetCityListResponse:
+      type: object
+      properties:
+        cityList:
+          type: array
+          items:
+            $ref: '#/components/schemas/City'
+    City:
+      type: object
+      properties:
+        city:
+          type: string
