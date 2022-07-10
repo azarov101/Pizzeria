@@ -9,7 +9,6 @@ spring:
   data:
     mongodb:
       uri: mongodb://mongodb_pizza:27017/local?retryWrites=false
-      collection-name: pizza_location
 
 logging:
   level:

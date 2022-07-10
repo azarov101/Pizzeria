@@ -1,6 +1,6 @@
-package com.example.location.resources.rest;
+package com.example.location.rest;
 
-import com.example.location.resources.controller.LocationController;
+import com.example.location.controller.LocationController;
 import org.openapitools.api.GetCityListApi;
 import org.openapitools.model.GetCityListResponse;
 import org.springframework.http.HttpStatus;
