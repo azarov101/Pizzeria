@@ -8,19 +8,10 @@ public class Constants {
     public static final String TOPPINGS = "pizza toppings";
     public static final String DRINKS = "pizza drinks";
 
-    public static String tryRetrieveFromDBMessage(String item) {
-        return "Trying to retrieve " + item + " from Database";
-    }
 
-    public static String failRetrieveFromDBMessage(String item) {
-        return "There are no " + item + " in Database";
-    }
-
-    public static String successRetrieveFromDBMessage(String item) {
-        return "Successfully retrieved " + item + " from Database";
-    }
-
-    public static String exceptionRetrieveFromDBMessage(String item) {
-        return "Database error when trying to retrieve " + item + ". Error Message: {}";
-    }
+    /********** Messages **********/
+    public static final String TRYING_RETRIEVE_FROM_DB = "Trying to retrieve {} from Database";
+    public static final String RETRIEVE_FROM_DB_FAILED = "There are no records in Database";
+    public static final String RETRIEVE_FROM_DB_SUCCEEDED = "Successfully retrieved {} from Database";
+    public static final String RETRIEVE_FROM_DB_EXCEPTION = "Database error when trying to retrieve {}. Error Message: {}";
 }

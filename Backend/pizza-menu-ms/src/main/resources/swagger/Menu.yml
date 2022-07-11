@@ -1,0 +1,78 @@
+openapi: 3.0.1
+info:
+  title: Menu
+  description: 'This swagger contains the menu: pizzas, toppings and drinks that we
+    offer.'
+  license:
+    name: Proprietary software
+    url: https://en.wikipedia.org/wiki/Proprietary_software
+  version: 1.0.0
+servers:
+  - url: http://localhost:8086/menu
+tags:
+  - name: Menu
+    description: This service is used to get the menu items.
+paths:
+  /getMenu:
+    get:
+      tags:
+        - Menu
+      summary: Get menu.
+      description: This service is used to get the menu items.
+      operationId: getMenu
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMenuResponse'
+        401:
+          description: Unauthorized
+          content: { }
+        403:
+          description: Forbidden
+          content: { }
+        404:
+          description: Not Found
+          content: { }
+components:
+  schemas:
+    GetMenuResponse:
+      type: object
+      properties:
+        pizzaList:
+          type: array
+          items:
+            $ref: '#/components/schemas/PizzaItem'
+        toppingList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtraItem'
+        drinkList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtraItem'
+    PizzaItem:
+      type: object
+      properties:
+        item:
+          type: string
+        price:
+          type: number
+          format: double
+        discountedPrice:
+          type: number
+          format: double
+        image:
+          type: string
+    ExtraItem:
+      type: object
+      properties:
+        item:
+          type: string
+        price:
+          type: number
+          format: double
+        image:
+          type: string

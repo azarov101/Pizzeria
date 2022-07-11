@@ -18,7 +18,14 @@ services:
     build: ./Backend/pizza-location-ms
     restart: always
     ports:
-      - 8080:8085
+      - 8085:8085
+    depends_on:
+      - mongodb_pizza
+  pizza-menu:
+    build: ./Backend/pizza-menu-ms
+    restart: always
+    ports:
+      - 8086:8086
     depends_on:
       - mongodb_pizza
 

@@ -8,7 +8,7 @@ cross:
 spring:
   data:
     mongodb:
-      uri: mongodb://mongodb_pizza:27017/local?retryWrites=false
+      uri: mongodb://localhost:27017/local?retryWrites=false
 
 logging:
   level:
