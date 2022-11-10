@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Field, Form, reduxForm } from 'redux-form';
 import { Button } from 'semantic-ui-react';
-import DropdownList from 'react-widgets/lib/DropdownList'
-import 'react-widgets/dist/css/react-widgets.css'
+import DropdownList from 'react-widgets/DropdownList'
+import 'react-widgets/styles.css'
 
 import {getCityAction, createOrderAction, getOrderAction} from '../../actions';
 import deliveryImage from '../../images/delivery.png';

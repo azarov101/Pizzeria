@@ -5,17 +5,17 @@ export const jsonServer =  axios.create({
 });
 
 export const location =  axios.create({
-    baseURL: "http://localhost:8080/location"
+    baseURL: "http://localhost:8085/location"
 });
 
 export const menu =  axios.create({
-    baseURL: "http://localhost:8081/menu"
+    baseURL: "http://localhost:8086/menu"
 });
 
 export const order =  axios.create({
-    baseURL: "http://localhost:8082/order"
+    baseURL: "http://localhost:8087/order"
 });
 
 export const delivery =  axios.create({
-    baseURL: "http://localhost:8083/delivery"
+    baseURL: "http://localhost:8088/delivery"
 });
