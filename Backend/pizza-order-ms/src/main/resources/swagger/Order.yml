@@ -1,0 +1,273 @@
+openapi: 3.0.1
+info:
+  title: Order
+  description: This swagger contains order functionality.
+  license:
+    name: Proprietary software
+    url: https://en.wikipedia.org/wiki/Proprietary_software
+  version: 1.0.0
+servers:
+  - url: http://localhost:8087/order
+tags:
+  - name: Order
+    description: This service is used to create and get an order.
+paths:
+  /createOrder:
+    post:
+      tags:
+        - Order
+      summary: create order
+      description: This service is used to create a new order.
+      operationId: createOrder
+      requestBody:
+        description: CreateOrderRequest object that needs to be added as a new order
+          to the Database.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrderResponse'
+        401:
+          description: Unauthorized
+          content: { }
+        403:
+          description: Forbidden
+          content: { }
+        404:
+          description: Not Found
+          content: { }
+      x-codegen-request-body-name: body
+  /getOrderDetails/{orderId}:
+    get:
+      tags:
+        - Order
+      summary: Get order details
+      description: This service is used to get order details.
+      operationId: getOrder
+      parameters:
+        - name: orderId
+          in: path
+          description: This number is the id of the order.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrderDetailsResponse'
+        401:
+          description: Unauthorized
+          content: { }
+        403:
+          description: Forbidden
+          content: { }
+        404:
+          description: Not Found
+          content: { }
+  /getAllOrders:
+    get:
+      tags:
+        - Order
+      summary: Get list of all orders
+      description: This service is used to get all the orders.
+      operationId: getAllOrders
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllOrdersResponse'
+        401:
+          description: Unauthorized
+          content: { }
+        403:
+          description: Forbidden
+          content: { }
+        404:
+          description: Not Found
+          content: { }
+components:
+  schemas:
+    CreateOrderResponse:
+      type: object
+      properties:
+        orderId:
+          type: string
+        requestStatus:
+          type: string
+    CreateOrderRequest:
+      required:
+        - items
+        - location
+        - name
+        - totalPrice
+      type: object
+      properties:
+        name:
+          pattern: ^[a-zA-Z-][a-zA-Z- ]*$
+          type: string
+        totalPrice:
+          type: number
+          format: double
+        location:
+          type: string
+        notes:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderDetailsExtra'
+    OrderDetailsExtra:
+      required:
+        - drinks
+        - numberOfPizzas
+        - orderPrice
+        - pizzaDescription
+        - toppings
+      type: object
+      properties:
+        pizzaDescription:
+          $ref: '#/components/schemas/PizzaDescription'
+        orderPrice:
+          type: number
+          format: double
+        numberOfPizzas:
+          type: integer
+          format: int32
+        toppings:
+          type: array
+          items:
+            $ref: '#/components/schemas/PizzaToppingsExtra'
+        drinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PizzaDrinksExtra'
+    PizzaToppingsExtra:
+      required:
+        - pizzaNumber
+        - toppings
+      type: object
+      properties:
+        pizzaNumber:
+          type: integer
+          format: int32
+        toppings:
+          type: array
+          items:
+            $ref: '#/components/schemas/PizzaExtra'
+    PizzaExtra:
+      type: object
+      properties:
+        item:
+          type: string
+        price:
+          type: number
+          format: double
+        image:
+          type: string
+      description: Pizza toppings details.
+    PizzaDrinksExtra:
+      type: object
+      properties:
+        item:
+          type: string
+        price:
+          type: number
+          format: double
+        image:
+          type: string
+        amount:
+          type: integer
+      description: Pizza drinks details.
+    GetOrderDetailsResponse:
+      type: object
+      properties:
+        orderId:
+          type: string
+        name:
+          type: string
+        totalPrice:
+          type: number
+          format: double
+        location:
+          type: string
+        notes:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderDetails'
+    OrderDetails:
+      type: object
+      properties:
+        pizzaDescription:
+          $ref: '#/components/schemas/PizzaDescription'
+        numberOfPizzas:
+          type: integer
+          format: int32
+        toppings:
+          type: array
+          items:
+            $ref: '#/components/schemas/PizzaToppings'
+        drinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PizzaDrinks'
+        orderPrice:
+          type: number
+          format: double
+    PizzaDescription:
+      required:
+        - image
+        - item
+        - price
+      type: object
+      properties:
+        item:
+          type: string
+        price:
+          type: number
+          format: double
+        discountedPrice:
+          type: number
+          format: double
+        image:
+          type: string
+    PizzaToppings:
+      required:
+        - pizzaNumber
+        - toppings
+      type: object
+      properties:
+        pizzaNumber:
+          type: integer
+          format: int32
+        toppings:
+          type: array
+          items:
+            type: string
+    PizzaDrinks:
+      type: object
+      properties:
+        item:
+          type: string
+        amount:
+          type: integer
+    GetAllOrdersResponse:
+      type: object
+      properties:
+        orderList:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetOrderDetailsResponse'

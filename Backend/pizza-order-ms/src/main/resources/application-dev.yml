@@ -15,6 +15,7 @@ server:
 cross:
   origins: http://localhost:3000
 
+
 spring:
   data:
     mongodb:

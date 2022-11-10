@@ -1,48 +1,44 @@
 package com.example.order.gateways.async.producers;
 
+import com.example.order.dto.OrderDto;
 import com.example.order.gateways.async.producers.models.Delivery;
-import com.example.order.gateways.async.producers.sources.IOrderCreatedSource;
-import com.example.order.model.external.CreateOrderRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.integration.support.MessageBuilder;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
-import org.springframework.stereotype.Component;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Slf4j
-@Component
+@RequiredArgsConstructor
+@Service
 public class OrderCreatedProducer {
 
-    protected IOrderCreatedSource orderCreatedSource;
-    protected static Logger logger = LoggerFactory.getLogger(OrderCreatedProducer.class);
+    private final StreamBridge streamBridge;
 
-    public OrderCreatedProducer(IOrderCreatedSource orderCreatedSource) {
-        this.orderCreatedSource = orderCreatedSource;
+    public void orderCreated(OrderDto orderDto) {
+        Message<Delivery> deliveryMessage = MessageBuilder
+                .withPayload(mapCreateOrderRequestToDelivery(orderDto))
+                .setHeader(KafkaHeaders.MESSAGE_KEY, orderDto.getId())
+                .build();
+        streamBridge.send("orderCreated-out-0", deliveryMessage);
+        log.info("Sending new order {}", orderDto.getId());
     }
 
-    public void produce(final Delivery delivery) {
-        logger.info("Sending async message to channel: {}", IOrderCreatedSource.CHANNEL_NAME);
 
-        Message<Delivery> message = MessageBuilder.withPayload(delivery).build();
-        orderCreatedSource.output().send(message);
-
-        logger.info("Message sent successfully");
-    }
-
-    public Delivery mapCreateOrderRequestToDelivery(CreateOrderRequest order, Long orderId) {
-        Delivery delivery = new Delivery();
+    private Delivery mapCreateOrderRequestToDelivery(OrderDto order) {
         LocalDateTime orderTime = LocalDateTime.now();
 
-        delivery.setOrderId(orderId);
-        delivery.setName(order.getName());
-        delivery.setPrice(order.getTotalPrice());
-        delivery.setStatus("Ordered");
-        delivery.setCreatedTime(orderTime);
-        delivery.setUpdatedTime(orderTime);
-
-        return delivery;
+        return Delivery.builder()
+                .orderId(order.getId())
+                .name(order.getName())
+                .price(order.getTotalPrice())
+                .status("Ordered")
+                .createdTime(orderTime)
+                .updatedTime(orderTime)
+                .build();
     }
 }
