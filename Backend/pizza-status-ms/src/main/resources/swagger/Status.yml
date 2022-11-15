@@ -1,0 +1,54 @@
+openapi: 3.0.1
+info:
+  title: Status
+  description: This swagger contains order status functionality.
+  license:
+    name: Proprietary software
+    url: https://en.wikipedia.org/wiki/Proprietary_software
+  version: 1.0.0
+servers:
+  - url: http://localhost:8088/status
+tags:
+  - name: Status
+    description: This service is used to get an order's status.
+paths:
+  /getOrderStatus/{orderId}:
+    get:
+      tags:
+        - Status
+      summary: Get order status
+      description: This service is used to get order status.
+      operationId: getOrderStatus
+      parameters:
+        - name: orderId
+          in: path
+          description: This number is the id of the order.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrderStatusResponse'
+        401:
+          description: Unauthorized
+          content: { }
+        403:
+          description: Forbidden
+          content: { }
+        404:
+          description: Not Found
+          content: { }
+components:
+  schemas:
+    GetOrderStatusResponse:
+      type: object
+      properties:
+        orderId:
+          type: string
+        status:
+          type: string
+          enum: [ NEW_ORDER, IN_PROGRESS, READY_FOR_DELIVERY, DELIVERED ]

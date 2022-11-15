@@ -1,7 +1,8 @@
 package com.example.order.gateways.async.producers;
 
 import com.example.order.dto.OrderDto;
-import com.example.order.gateways.async.producers.models.Delivery;
+import com.example.order.gateways.async.producers.models.OrderStatus;
+import com.example.order.gateways.async.producers.models.OrderStatusMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -20,7 +21,7 @@ public class OrderCreatedProducer {
     private final StreamBridge streamBridge;
 
     public void orderCreated(OrderDto orderDto) {
-        Message<Delivery> deliveryMessage = MessageBuilder
+        Message<OrderStatusMessage> deliveryMessage = MessageBuilder
                 .withPayload(mapCreateOrderRequestToDelivery(orderDto))
                 .setHeader(KafkaHeaders.MESSAGE_KEY, orderDto.getId())
                 .build();
@@ -29,14 +30,14 @@ public class OrderCreatedProducer {
     }
 
 
-    private Delivery mapCreateOrderRequestToDelivery(OrderDto order) {
+    private OrderStatusMessage mapCreateOrderRequestToDelivery(OrderDto order) {
         LocalDateTime orderTime = LocalDateTime.now();
 
-        return Delivery.builder()
+        return OrderStatusMessage.builder()
                 .orderId(order.getId())
                 .name(order.getName())
                 .price(order.getTotalPrice())
-                .status("Ordered")
+                .status(OrderStatus.NEW_ORDER)
                 .createdTime(orderTime)
                 .updatedTime(orderTime)
                 .build();

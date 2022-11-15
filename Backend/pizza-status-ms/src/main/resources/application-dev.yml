@@ -1,0 +1,50 @@
+---
+server:
+  port: 8088
+  error:
+    include-stacktrace: ON_PARAM
+
+cross:
+  origins: http://localhost:3000
+
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/local?retryWrites=false
+  cloud:
+    stream:
+      kafka:
+#        binder:
+#          consumerProperties:
+#            key:
+#              deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        bindings:
+          orderUpdated-out-0:
+            producer:
+              configuration:
+                key:
+                  serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      defaultBinder: kafka
+      binders:
+        kafka:
+          type: kafka
+          environment:
+            spring:
+              cloud:
+                stream:
+                  kafka:
+                    binder:
+                      brokers: localhost:29092
+                      zkNodes: localhost:2181
+      bindings:
+        orderUpdated-out-0:
+          destination: my-topic2
+        processOrder-in-0:
+          destination: my-topic2
+
+logging:
+  level:
+    com:
+      example: DEBUG

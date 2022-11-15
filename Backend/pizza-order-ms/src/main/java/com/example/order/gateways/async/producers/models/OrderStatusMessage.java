@@ -11,13 +11,11 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Delivery {
-//    @Id
-//    private String id;
+public class OrderStatusMessage {
     private String orderId;
     private String name;
     private Double price;
-    private String status;
+    private OrderStatus status;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }

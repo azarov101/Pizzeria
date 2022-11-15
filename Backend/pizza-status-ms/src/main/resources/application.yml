@@ -1,0 +1,102 @@
+---
+server:
+  port: 8088
+  error:
+    include-stacktrace: ON_PARAM
+
+#eureka:
+#  client:
+#    enabled: false
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#  instance:
+#    prefer-ip-address: true
+
+cross:
+  origins: http://localhost:3000
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/local?retryWrites=false
+  cloud:
+    stream:
+      kafka:
+        bindings:
+          orderCreated-out-0:
+            producer:
+              configuration:
+                key:
+                  serializer: org.apache.kafka.common.serialization.StringSerializer
+      defaultBinder: kafka
+      binders:
+        kafka:
+          type: kafka
+          environment:
+            spring:
+              cloud:
+                stream:
+                  kafka:
+                    binder:
+                      brokers: localhost:29092
+                      zkNodes: localhost:2181
+      #      kafka:
+      #        binder:
+      #          autoAddPartitions: true
+      #        bindings:
+      #          ORDER_CREATED_INPUT_EVENT:
+      #            binder: kafka
+      #            consumer:
+      #              startOffset: latest
+      #              autoCommitOffset: true
+      #              autoCommitOnError: true
+      #              enableDlq: true
+      #              configuration:
+      #                max.poll.interval.ms: 2147483647
+      #                session.timeout.ms: 300000
+      #                heartbeat.interval.ms: 60000
+      #          DELIVERY_STATUS_UPDATE_INPUT_EVENT:
+      #            binder: kafka
+      #            consumer:
+      #              startOffset: latest
+      #              autoCommitOffset: true
+      #              autoCommitOnError: true
+      #              enableDlq: true
+      #              configuration:
+      #                max.poll.interval.ms: 2147483647
+      #                session.timeout.ms: 300000
+      #                heartbeat.interval.ms: 60000
+      #          DELIVERY_STATUS_UPDATE_OUTPUT_EVENT:
+      #            producer.sync: false
+      #            producer.configuration.retries: 2
+      #            producer.configuration.request.timeout.ms: 150000
+
+      bindings:
+        orderCreated-out-0:
+          destination: my-topic2
+        #        #Input Channels
+        #        ORDER_CREATED_OUTPUT_EVENT:
+        #          binder: kafka
+        #          content-type: application/json
+        #          destination: ORDER_CREATED
+        #          consumer:
+        #            startOffset: latest
+        #        DELIVERY_STATUS_UPDATE_INPUT_EVENT:
+        #          binder: kafka
+        #          content-type: application/json
+        #          destination: DELIVERY_STATUS_UPDATE
+        #          consumer:
+        #            startOffset: latest
+        #Output Channels
+#        DELIVERY_STATUS_UPDATE_OUTPUT_EVENT:
+#          binder: kafka
+#          content-type: application/json
+#          destination: DELIVERY_STATUS_UPDATE
+#          producer:
+#            partitionKeyExpression: payload.partitionKey
+#            partitionCount: 1
+
+logging:
+  level:
+    com:
+      example: DEBUG
